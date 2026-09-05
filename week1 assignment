@@ -1,0 +1,116 @@
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+/**
+ * Program Name: StringProcessor
+ * Demonstrates string operations, ASCII codes, and exception handling.
+ */
+public class StringProcessor {
+
+    private static final String SPACE_REGEX = "\\s+"; // Fixed variable
+public class JavaStringAndExceptionPractice {
+
+public static void main(String[] args) {
+        new StringProcessor().runApp();
+        Scanner inputScanner = new Scanner(System.in);
+
+        demonstrateStringCreation();
+        demonstrateEscapeSequences();
+        
+        String userInputText = captureUserInput(inputScanner);
+        
+        processStringArray();
+        analyzeAndFormatString(userInputText);
+        displayAsciiCodes(userInputText);
+        handleUncheckedException(userInputText);
+        handleCheckedException();
+
+        inputScanner.close();
+}
+
+    public void runApp() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            String text = promptInput(scanner, "Enter a sentence: ");
+            int index = Integer.parseInt(promptInput(scanner, "Enter character index: "));
+    public static void demonstrateStringCreation() {
+        String literalString = "Hello, Java!";
+        String objectString = new String("Welcome to Practice Problems.");
+
+            char character = extractCharacter(text, index);
+            int asciiValue = computeAsciiValue(character);
+            String[] words = splitIntoWords(text);
+        System.out.println("Literal String: " + literalString);
+        System.out.println("Object String: " + objectString);
+    }
+
+    public static void demonstrateEscapeSequences() {
+        String escapedText = "Learning \"Java Strings\"\n\t* Concept 1\n\t* Concept 2";
+        System.out.println(escapedText);
+    }
+
+            System.out.println("\n--- Output ---");
+            System.out.println("Character:\t'" + character + "'");
+            System.out.println("ASCII Code:\t" + asciiValue);
+            System.out.println("Word Count:\t" + words.length);
+    public static String captureUserInput(Scanner scanner) {
+        System.out.print("Enter a phrase: ");
+        return scanner.nextLine();
+    }
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error: Index must be a valid integer.");
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Error: Index is out of string bounds.");
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+    public static void processStringArray() {
+        String[] languagesArray = {"Java", "Python", "C++"};
+        for (String language : languagesArray) {
+            System.out.println("Language: " + language);
+}
+}
+
+    public String promptInput(Scanner scanner, String message) {
+        System.out.print(message);
+        return scanner.nextLine();
+    public static void analyzeAndFormatString(String textToAnalyze) {
+        System.out.println("Original: " + textToAnalyze);
+        System.out.println("Length: " + textToAnalyze.length());
+        System.out.println("Uppercase: " + textToAnalyze.toUpperCase());
+        System.out.println("Trimmed: " + textToAnalyze.trim());
+}
+
+    public char extractCharacter(String str, int index) throws IndexOutOfBoundsException {
+        return str.charAt(index);
+    public static void displayAsciiCodes(String textSource) {
+        for (int i = 0; i < textSource.length(); i++) {
+            char ch = textSource.charAt(i);
+            System.out.println("Char: '" + ch + "' -> ASCII: " + (int) ch);
+        }
+}
+
+    public int computeAsciiValue(char ch) {
+        return (int) ch;
+    public static void handleUncheckedException(String textSource) {
+        try {
+            char invalidChar = textSource.charAt(textSource.length() + 5);
+            System.out.println("Char: " + invalidChar);
+        } catch (StringIndexOutOfBoundsException exception) {
+            System.err.println("Unchecked Exception Caught: Invalid String Index.");
+            System.err.println("Details: " + exception.getMessage());
+        }
+}
+
+    public String[] splitIntoWords(String str) {
+        return str.trim().isEmpty() ? new String[0] : str.trim().split(SPACE_REGEX);
+    public static void handleCheckedException() {
+        String filePath = "non_existent_file.txt";
+        try (FileReader fileReader = new FileReader(filePath)) {
+            fileReader.read();
+        } catch (IOException exception) {
+            System.err.println("Checked Exception Caught: File access failed.");
+            System.err.println("Details: " + exception.getMessage());
+        }
+}
+}
