@@ -1,0 +1,159 @@
+import java.util.Scanner;
+
+public class StringProgrammingPractice {
+
+    // Fixed variable
+    static final String DEFAULT_TEXT = "  Hello Java Programming  ";
+
+    // Method to demonstrate common String methods
+    public static void demonstrateStringMethods(String text) {
+        System.out.println("\n--- Common String Methods ---");
+
+        System.out.println("Original: " + text);
+        System.out.println("Length: " + text.length());
+        System.out.println("Character at index 1: " + text.charAt(1));
+        System.out.println("Substring: " + text.substring(2, 7));
+        System.out.println("Index of 'Java': " + text.indexOf("Java"));
+        System.out.println("Contains 'Java': " + text.contains("Java"));
+        System.out.println("Uppercase: " + text.toUpperCase());
+        System.out.println("Lowercase: " + text.toLowerCase());
+    }
+
+    // Method to demonstrate String manipulation methods
+    public static void demonstrateStringManipulation(String text) {
+        System.out.println("\n--- String Manipulation Methods ---");
+
+        System.out.println("Trimmed: " + text.trim());
+        System.out.println("Replaced: " + text.replace("Java", "Python"));
+
+        String[] words = text.trim().split(" ");
+
+        System.out.println("Split words:");
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
+
+    // Method to convert character to ASCII
+    public static void convertCharacterToAscii(char character) {
+        int asciiValue = character;
+        System.out.println("\nCharacter: " + character);
+        System.out.println("ASCII Value: " + asciiValue);
+    }
+
+    // Method to convert ASCII to character
+    public static void convertAsciiToCharacter(int asciiValue) {
+        char character = (char) asciiValue;
+        System.out.println("ASCII Value: " + asciiValue);
+        System.out.println("Character: " + character);
+    }
+
+    // Method to demonstrate StringBuilder
+    public static void demonstrateStringBuilder(String text) {
+        System.out.println("\n--- StringBuilder ---");
+
+        StringBuilder builder = new StringBuilder(text);
+
+        builder.append(" Course");
+        builder.insert(0, "Welcome ");
+        builder.replace(0, 7, "Hello");
+        builder.reverse();
+
+        System.out.println("StringBuilder Result: " + builder);
+    }
+
+    // Method to demonstrate StringBuffer
+    public static void demonstrateStringBuffer(String text) {
+        System.out.println("\n--- StringBuffer ---");
+
+        StringBuffer buffer = new StringBuffer(text);
+
+        buffer.append(" Course");
+        buffer.insert(0, "Welcome ");
+
+        System.out.println("StringBuffer Result: " + buffer);
+    }
+
+    // Method to compare strings
+    public static void compareStrings(String firstText, String secondText) {
+        System.out.println("\n--- String Comparison ---");
+
+        System.out.println("Using equals(): " + firstText.equals(secondText));
+        System.out.println("Using equalsIgnoreCase(): "
+                + firstText.equalsIgnoreCase(secondText));
+        System.out.println("Using compareTo(): "
+                + firstText.compareTo(secondText));
+    }
+
+    // Method to demonstrate StringBuilder performance
+    public static void comparePerformance() {
+        System.out.println("\n--- Performance Comparison ---");
+
+        final int COUNT = 10000;
+
+        long startTime = System.nanoTime();
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < COUNT; i++) {
+            builder.append("Java");
+        }
+
+        long builderTime = System.nanoTime() - startTime;
+
+        startTime = System.nanoTime();
+
+        StringBuffer buffer = new StringBuffer();
+
+        for (int i = 0; i < COUNT; i++) {
+            buffer.append("Java");
+        }
+
+        long bufferTime = System.nanoTime() - startTime;
+
+        System.out.println("StringBuilder Time: " + builderTime + " ns");
+        System.out.println("StringBuffer Time: " + bufferTime + " ns");
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter a string: ");
+            String userText = scanner.nextLine();
+
+            demonstrateStringMethods(userText);
+            demonstrateStringManipulation(userText);
+
+            System.out.print("\nEnter a character for ASCII conversion: ");
+            char character = scanner.nextLine().charAt(0);
+            convertCharacterToAscii(character);
+
+            System.out.print("\nEnter an ASCII value: ");
+            int asciiValue = scanner.nextInt();
+            convertAsciiToCharacter(asciiValue);
+
+            demonstrateStringBuilder(userText);
+            demonstrateStringBuffer(userText);
+
+            System.out.print("\nEnter another string for comparison: ");
+            scanner.nextLine();
+            String secondText = scanner.nextLine();
+
+            compareStrings(userText, secondText);
+
+            comparePerformance();
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number entered.");
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Invalid character input.");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
