@@ -1,0 +1,91 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class JavaAdvancedStringAndPerformancePractice {
+
+    public static void main(String[] args) {
+        Scanner inputScanner = new Scanner(System.in);
+
+        String userRawInput = captureUserInput(inputScanner);
+        executeStringMethods(userRawInput);
+        convertAndDisplayAsciiData(userRawInput);
+        evaluateStringPerformance(100000);
+        saveResultsToFile(userRawInput, "practice_output.txt");
+
+        inputScanner.close();
+    }
+
+    public static String captureUserInput(Scanner scanner) {
+        System.out.print("Enter a sentence: ");
+        return scanner.nextLine();
+    }
+
+    public static void executeStringMethods(String inputSentence) {
+        try {
+            int totalLength = inputSentence.length();
+            char firstChar = inputSentence.charAt(0);
+            int indexOfJava = inputSentence.toLowerCase().indexOf("java");
+            String extractedSubstring = (totalLength > 5) ? inputSentence.substring(0, 5) : inputSentence;
+
+            System.out.println("Length: " + totalLength);
+            System.out.println("First Char: " + firstChar);
+            System.out.println("Index of 'java': " + indexOfJava);
+            System.out.println("Substring: " + extractedSubstring);
+
+            String trimmedText = inputSentence.trim();
+            String replacedText = inputSentence.replace(' ', '_');
+            String[] wordsArray = inputSentence.trim().split("\\s+");
+
+            System.out.println("Trimmed: " + trimmedText);
+            System.out.println("Replaced: " + replacedText);
+            System.out.println("Split Words: " + Arrays.toString(wordsArray));
+        } catch (StringIndexOutOfBoundsException exception) {
+            System.err.println("Error: String index out of bounds - " + exception.getMessage());
+        }
+    }
+
+    public static void convertAndDisplayAsciiData(String sourceText) {
+        if (sourceText == null || sourceText.isEmpty()) return;
+
+        for (int i = 0; i < Math.min(sourceText.length(), 5); i++) {
+            char ch = sourceText.charAt(i);
+            System.out.println("'" + ch + "' -> ASCII: " + (int) ch);
+        }
+
+        for (int asciiVal = 65; asciiVal <= 69; asciiVal++) {
+            System.out.println("ASCII " + asciiVal + " -> '" + (char) asciiVal + "'");
+        }
+    }
+
+    public static void evaluateStringPerformance(int iterationCount) {
+        String s1 = "JavaPractice";
+        String s2 = new String("JavaPractice");
+
+        System.out.println("== Check: " + (s1 == s2));
+        System.out.println("equals Check: " + s1.equals(s2));
+
+        long startBuilder = System.currentTimeMillis();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < iterationCount; i++) stringBuilder.append("A");
+        long builderTime = System.currentTimeMillis() - startBuilder;
+
+        long startBuffer = System.currentTimeMillis();
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < iterationCount; i++) stringBuffer.append("A");
+        long bufferTime = System.currentTimeMillis() - startBuffer;
+
+        System.out.println("StringBuilder Time: " + builderTime + " ms");
+        System.out.println("StringBuffer Time: " + bufferTime + " ms");
+    }
+
+    public static void saveResultsToFile(String dataToWrite, String targetFilePath) {
+        try (FileWriter fileWriter = new FileWriter(targetFilePath, true)) {
+            fileWriter.write(dataToWrite + "\n");
+            System.out.println("Saved to file.");
+        } catch (IOException exception) {
+            System.err.println("File Error: " + exception.getMessage());
+        }
+    }
+}
