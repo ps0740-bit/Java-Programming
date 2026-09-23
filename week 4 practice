@@ -1,0 +1,115 @@
+1.
+public class Solution {
+    public int[] twoSum(int[] nums, int target) {
+       
+        for (int i = 0; i < nums.length; i++) {
+            // Inner loop checks every subsequent element to form pairs (i, j)
+            for (int j = i + 1; j < nums.length; j++) {
+             
+                if (nums[i] + nums[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+       
+        return new int[]{};
+    }
+}
+2).
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+        
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        
+        // Walk through the array once
+        for (int price : prices) {
+            // Update the lowest price seen so far
+            if (price < minPrice) {
+                minPrice = price;
+            } 
+            // Calculate potential profit for today and update max profit if higher
+            else if (price - minPrice > maxProfit) {
+                maxProfit = price - minPrice;
+            }
+        }
+        
+        return maxProfit;
+    }
+}
+3.)
+public class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        // Outer loop iterates through each element at position i
+        for (int i = 0; i < nums.length; i++) {
+            // Inner loop compares with every subsequent element at position j
+            for (int j = i + 1; j < nums.length; j++) {
+                // Return true right away if two distinct positions hold the exact same value
+                if (nums[i] == nums[j]) {
+                    return true;
+                }
+            }
+        }
+        // Return false if no duplicate pair is found after checking all pairs
+        return false;
+    }
+}
+4.)
+public class Solution {
+    public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
+        // Create a new result array large enough to hold all elements from both arrays
+        int[] result = new int[arr1.length + arr2.length];
+        
+        int i = 0; // Pointer for arr1
+        int j = 0; // Pointer for arr2
+        int k = 0; // Pointer for result array
+        
+        // Repeatedly compare current elements and copy the smaller one
+        while (i < arr1.length && j < arr2.length) {
+            if (arr1[i] <= arr2[j]) {
+                result[k++] = arr1[i++];
+            } else {
+                result[k++] = arr2[j++];
+            }
+        }
+        
+        // Copy any remaining elements from arr1
+        while (i < arr1.length) {
+            result[k++] = arr1[i++];
+        }
+        
+        // Copy any remaining elements from arr2
+        while (j < arr2.length) {
+            result[k++] = arr2[j++];
+        }
+        
+        // Return the fully merged, fully sorted result array[cite: 4]
+        return result;
+    }
+}
+
+5.)
+public class Solution {
+    public int[] rotateArray(int[] nums, int k) {
+        int n = nums.length;
+        if (n == 0) {
+            return nums;
+        }
+
+        // Reduce k so that unnecessary full rotations are avoided
+        k = k % n; //
+
+        // Create a new array of the same size
+        int[] rotated = new int[n]; //
+
+        // Calculate each element's new position after rotation
+        for (int i = 0; i < n; i++) {
+            rotated[(i + k) % n] = nums[i]; //
+        }
+
+        return rotated; //
+    }
+}
