@@ -1,0 +1,151 @@
+1).
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+        
+        // Forward pass: calculate prefix products (product of elements to the left)
+        answer[0] = 1;
+        for (int i = 1; i < n; i++) {
+            answer[i] = answer[i - 1] * nums[i - 1];
+        }
+        
+        // Backward pass: multiply by suffix products (product of elements to the right)
+        int rightRunningProduct = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] = answer[i] * rightRunningProduct;
+            rightRunningProduct *= nums[i];
+        }
+        
+        return answer;
+    }
+}
+
+2.)
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        // Initialize current dynamic sum and global maximum sum with the first element
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+        
+        // Iterate through the array starting from the second element
+        for (int i = 1; i < nums.length; i++) {
+            // Decide whether to extend the current running subarray or start fresh from nums[i]
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            
+            // Keep track of the largest sum found so far
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        
+        return maxSum;
+    }
+}
+
+3.)
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Solution {
+    public int[][] threeSum(int[] nums) {
+        // Sort the array to enable the two-pointer technique and duplicate skipping
+        Arrays.sort(nums);
+        List<int[]> resultList = new ArrayList<>();
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            // Early exit optimization: if the smallest element is > 0, three numbers cannot sum to 0
+            if (nums[i] > 0) {
+                break;
+            }
+
+            // Skip duplicate values for the first element to avoid duplicate triplets
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            // Two-pointer scan moving inward from both ends
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    resultList.add(new int[]{nums[i], nums[left], nums[right]});
+
+                    // Skip duplicate values for the second element
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    // Skip duplicate values for the third element
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++; // Increase the sum
+                } else {
+                    right--; // Decrease the sum
+                }
+            }
+        }
+
+        return resultList.toArray(new int[resultList.size()][]);
+    }
+}
+4.)
+import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int count = 0;
+        int currentSum = 0;
+        
+        // Map to store frequency of prefix sums
+        Map<Integer, Integer> prefixSumMap = new HashMap<>();
+        
+        // Base case: prefix sum of 0 has occurred once (for subarrays starting at index 0)
+        prefixSumMap.put(0, 1);
+        
+        for (int num : nums) {
+            currentSum += num; // Running prefix sum
+            
+            // If (currentSum - k) exists in map, add its frequency to total count
+            if (prefixSumMap.containsKey(currentSum - k)) {
+                count += prefixSumMap.get(currentSum - k);
+            }
+            
+            // Record/update frequency of current prefix sum
+            prefixSumMap.put(currentSum, prefixSumMap.getOrDefault(currentSum, 0) + 1);
+        }
+        
+        return count;
+    }
+}
+
+5.)
+public class Solution {
+    public int findMin(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        // Modified binary search to locate the pivot/minimum element
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Compare middle element to the rightmost element
+            if (nums[mid] > nums[right]) {
+                // Minimum must be in the right half
+                left = mid + 1;
+            } else {
+                // Minimum is at mid or in the left half
+                right = mid;
+            }
+        }
+
+        return nums[left];
+    }
+}
