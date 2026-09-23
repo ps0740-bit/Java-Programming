@@ -1,0 +1,231 @@
+1.)
+import java.util.Arrays;
+
+public class Solution {
+    public static void curveScores(int[] scores, int bonus) {
+        // Modify the caller's array directly in place
+        for (int i = 0; i < scores.length; i++) {
+            scores[i] += bonus;[cite: 11]
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {70, 85, 60};
+        curveScores(scores, 10);
+        // Print the result using standard library's formatting helper
+        System.out.println(Arrays.toString(scores));
+    }
+}
+2.)
+public class Solution {
+    public static String findDuplicateTeam(String[] teamNames) {
+        // Outer loop iterates through each team name
+        for (int i = 0; i < teamNames.length; i++) {
+            // Inner loop compares against subsequent names to avoid redundant checks
+            for (int j = i + 1; j < teamNames.length; j++) {
+                // Use .equals() for string value comparison
+                if (teamNames[i].equals(teamNames[j])) {
+                    return "Duplicate Found: " + teamNames[i];[cite: 12]
+                }
+            }
+        }
+        
+        // Return clear message when no duplicates exist
+        return "No Duplicates Found";[cite: 12]
+    }
+
+    public static void main(String[] args) {
+        String[] test1 = {"ByteForce", "CodeCrafters", "ByteForce"};
+        System.out.println(findDuplicateTeam(test1)); // Output: Duplicate Found: ByteForce
+
+        String[] test2 = {"ByteForce", "CodeCrafters", "NullPointers"};
+        System.out.println(findDuplicateTeam(test2)); // Output: No Duplicates Found[cite: 12]
+    }
+}
+
+3.)
+public class Solution {
+    public static int[] findTopThreeScores(int[] scores) {
+        // Initialize running variables to track the top 3 highest scores
+        int first = Integer.MIN_VALUE;
+        int second = Integer.MIN_VALUE;
+        int third = Integer.MIN_VALUE;
+
+        // Single pass through the array from left to right
+        for (int score : scores) {
+            if (score > first) {
+                // New highest score found: shift first and second down
+                third = second;
+                second = first;
+                first = score;
+            } else if (score > second) {
+                // Beats second place: shift second down
+                third = second;
+                second = score;
+            } else if (score > third) {
+                // Beats third place
+                third = score;
+            }
+        }
+
+        // Return the three scores in descending order
+        return new int[]{first, second, third};
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {45, 82, 79, 90, 33, 90, 61};
+        int[] top3 = findTopThreeScores(scores);
+        System.out.println(java.util.Arrays.toString(top3)); // Output: [90, 90, 82]
+    }
+}
+4.)
+public class Solution {
+
+    // Helper method: computes the average of a single row
+    private static double rowAverage(int[] row) {
+        if (row == null || row.length == 0) {
+            return 0.0;
+        }
+        
+        double sum = 0;
+        for (int score : row) {
+            sum += score;
+        }
+        
+        return sum / row.length;
+    }
+
+    // Main method: classifies each row based on the threshold
+    public static String classifyRows(int[][] seatingScores, int threshold) {
+        if (seatingScores == null || seatingScores.length == 0) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < seatingScores.length; i++) {
+            // Call rowAverage helper exactly once per row
+            double avg = rowAverage(seatingScores[i]);
+
+            // Classify as "Quiet Zone" if strictly below threshold, else "Buzzing Zone"
+            String zone = (avg < threshold) ? "Quiet Zone" : "Buzzing Zone";[cite: 14]
+
+            // Format output: "Row i: Zone" separated by " | "
+            sb.append("Row ").append(i).append(": ").append(zone);
+
+            if (i < seatingScores.length - 1) {
+                sb.append(" | ");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        int[][] seatingScores = {
+            {40, 50, 45},
+            {85, 90, 95},
+            {30, 20, 25}
+        };
+        int threshold = 60;
+
+        String result = classifyRows(seatingScores, threshold);
+        System.out.println(result); 
+        // Output: "Row 0: Quiet Zone | Row 1: Buzzing Zone | Row 2: Quiet Zone"
+    }
+}
+5.)
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Candidate implements Comparable<Candidate> {
+    private String name;
+    private double cgpa;
+    private int codingScore;
+
+    // Constructor
+    public Candidate(String name, double cgpa, int codingScore) {
+        this.name = name;
+        this.cgpa = cgpa;
+        this.codingScore = codingScore;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getCgpa() {
+        return cgpa;
+    }
+
+    public int getCodingScore() {
+        return codingScore;
+    }
+
+    // Composite score formula: converts CGPA to 100-scale + coding score
+    public double getCompositeScore() {
+        return (cgpa * 10.0) + codingScore;
+    }
+
+    // Overloaded isEligible: CGPA-only check
+    public static boolean isEligible(double cgpa) {
+        return cgpa >= 7.5;
+    }
+
+    // Overloaded isEligible: Combined CGPA and coding score check
+    public static boolean isEligible(double cgpa, int codingScore) {
+        return isEligible(cgpa) || (cgpa >= 6.5 && codingScore >= 60);
+    }
+
+    // Implements Comparable<Candidate> to rank descending by composite score
+    @Override
+    public int compareTo(Candidate other) {
+        return Double.compare(other.getCompositeScore(), this.getCompositeScore());
+    }
+
+    // Filter, sort using Arrays.sort, and format output string
+    public static String shortlistAndRank(Candidate[] candidates) {
+        List<Candidate> shortlistedList = new ArrayList<>();
+
+        for (Candidate candidate : candidates) {
+            // Check eligibility using the overloaded method
+            if (isEligible(candidate.getCgpa(), candidate.getCodingScore())) {
+                shortlistedList.add(candidate);
+            }
+        }
+
+        // Convert list to array for sorting with Arrays.sort(...)[cite: 15]
+        Candidate[] shortlisted = shortlistedList.toArray(new Candidate[0]);
+        Arrays.sort(shortlisted); // Leverages compareTo() automatically[cite: 15]
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < shortlisted.length; i++) {
+            sb.append(i + 1)
+              .append(". ")
+              .append(shortlisted[i].getName())
+              .append(" (")
+              .append(shortlisted[i].getCompositeScore())
+              .append(")");
+
+            if (i < shortlisted.length - 1) {
+                sb.append(" | ");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Candidate[] candidates = {
+            new Candidate("Aisha", 8.2, 40),
+            new Candidate("Rohit", 6.8, 65),
+            new Candidate("Meena", 6.0, 90),
+            new Candidate("Karan", 7.5, 10)
+        };
+
+        String result = shortlistAndRank(candidates);
+        System.out.println(result);
+        // Output: "1. Aisha (122.0) | 2. Rohit (133.0) | 3. Karan (85.0)" formatted output[cite: 15]
+    }
+}
