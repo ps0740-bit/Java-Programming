@@ -1,0 +1,161 @@
+1.)
+class PlacementRecord {
+    String studentName;
+    String company;
+    double packageLpa;
+    public PlacementRecord(String studentName, String company, double packageLpa) {
+        this.studentName = studentName;
+        this.company = company;
+        this.packageLpa = packageLpa;
+    }
+    public void printRecord() {
+        System.out.println(studentName + " -> " + company + " @ " + packageLpa + " LPA");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+    
+        PlacementRecord[] records = new PlacementRecord[3];
+
+        records[0] = new PlacementRecord("Ravi", "TCS", 4.5);
+        records[1] = new PlacementRecord("Anitha", "Zoho", 6.2);
+        records[2] = new PlacementRecord("Karthik", "Infosys", 4.0);
+
+        for (PlacementRecord record : records) {
+            record.printRecord();
+        }
+    }
+2.)
+class MessWallet {
+    private double balance;
+    public MessWallet(double initialBalance) {
+        if (initialBalance < 0) {
+            System.out.println("Warning: Opening balance cannot be negative. Setting balance to 0.");
+            this.balance = 0;
+        } else {
+            this.balance = initialBalance;
+        }
+    }
+    public void topUp(double amount) {
+        if (amount <= 0) {
+            System.out.println("Top-up rejected: Amount must be greater than 0");
+        } else {
+            this.balance += amount;
+            System.out.println("Balance after top-up: " + this.balance);
+        }
+    }
+    public void deduct(double amount) {
+        if (amount <= 0) {
+            System.out.println("Deduct rejected: Amount must be greater than 0");
+        } else if (amount > this.balance) {
+            System.out.println("Deduct rejected: insufficient balance");
+        } else {
+            this.balance -= amount;
+            System.out.println("Balance after deduction: " + this.balance);
+        }
+    }
+    public double getBalance() {
+        return this.balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MessWallet wallet = new MessWallet(500);
+
+        wallet.topUp(200);
+        wallet.deduct(1000);
+
+        System.out.println("Final balance: " + wallet.getBalance());
+    }
+}
+3.))
+class Course {
+    String code;
+    String title;
+    int credits;
+    int labCredits;
+    public Course(String code, String title, int credits, int labCredits) {
+        this.code = code;
+        this.title = title;
+        this.credits = credits;
+        this.labCredits = labCredits;
+    }
+    public Course(String code, String title, int credits) {
+        this(code, title, credits, 0);
+    }
+
+  
+    public int totalCredits() {
+        return credits + labCredits;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+      
+        Course course1 = new Course("21CSC201J", "Data Structures", 4);
+
+        // Creating object for course with lab using 4-argument constructor
+        Course course2 = new Course("21CSC205L", "DSA Lab", 3, 1);
+        System.out.println(course1.code + " total credits: " + course1.totalCredits());
+        System.out.println(course2.code + " total credits: " + course2.totalCredits());
+    }
+}
+4.))
+class IdCard {
+    String name;
+    int booksIssued;
+    public IdCard(String name, int booksIssued) {
+        this.name = name;
+        this.booksIssued = booksIssued;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        IdCard ravi = new IdCard("Ravi", 0);
+        IdCard duplicate = ravi;
+        duplicate.booksIssued = 3;
+
+        System.out.println("Ravi's booksIssued (via first variable): " + ravi.booksIssued);
+        System.out.println("duplicate == ravi: " + (duplicate == ravi));
+        IdCard separate = new IdCard("Ravi", 3);
+        System.out.println("separate == ravi: " + (separate == ravi));
+    }
+}
+5.))
+class Student {
+    // Instance fields unique to each student
+    String name;
+    double attendance;
+
+    // Static fields shared across all student instances
+    static String collegeName = "SRM Institute of Science and Technology";
+    static int studentCount = 0;
+
+    // Constructor incrementing static counter on instantiation
+    public Student(String name, double attendance) {
+        this.name = name;
+        this.attendance = attendance;
+        studentCount++;
+    }
+
+    // Static method printing class-level information
+    public static void printCollegeInfo() {
+        System.out.println(collegeName);
+        System.out.println("Students created: " + studentCount);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Instantiate two Student objects
+        Student s1 = new Student("Ravi", 85.5);
+        Student s2 = new Student("Anitha", 92.0);
+
+        // Call printCollegeInfo via class name
+        Student.printCollegeInfo();
+    }
+}
